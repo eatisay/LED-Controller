@@ -1,0 +1,57 @@
+-- Company: 
+-- Engineer: 
+-- 
+-- Create Date:    12:03:09 10/13/2017 
+-- Design Name: 
+-- Module Name:    DRIVER - Behavioral 
+-- Project Name: 
+-- Target Devices: 
+-- Tool versions: 
+-- Description: 
+--
+-- Dependencies: 
+--
+-- Revision: 
+-- Revision 0.01 - File Created
+-- Additional Comments: 
+--
+----------------------------------------------------------------------------------
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE IEEE.STD_LOGIC_ARITH.ALL;
+USE IEEE.STD_LOGIC_UNSIGNED.ALL;
+USE IEEE.NUMERIC_STD.ALL;
+ENTITY Driver IS
+ PORT ( A : IN STD_LOGIC_VECTOR (2 DOWNTO 0);
+ CLK : IN STD_LOGIC;
+ ssdata : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+ ssdriver : OUT STD_LOGIC_VECTOR (7 DOWNTO 0));
+END Driver;
+ARCHITECTURE BEHAVIORAL OF Driver IS
+SIGNAL COUNTER : STD_LOGIC_VECTOR(1 DOWNTO 0) := "00";
+BEGIN
+--INCREMENT COUNTER
+PROCESS_CLK : PROCESS(CLK)
+BEGIN
+-- IN THIS PROCESS, YOU ARE GOING TO WRITE AND IF THEN STATEMENT TO
+-- CHECK IF IT IS A RISING CLOCK CYCLE AND INCREMENT THE COUNTER BY 1.
+	IF(CLK'EVENT AND CLK = '1') THEN
+		COUNTER <= COUNTER + 1;
+		END IF;
+END PROCESS;
+-- SEV_SEG DATA
+-- WE DEFINE A, B, C, D to be 4-bit inputs.
+-- IN THIS PART OF THE BEHAVIORAL, YOU SHOULD USE A "WITH SELECT WHEN"
+-- EXPRESSION TO SELECT BETWEEN EACH OF THESE 4-BIT INPUTS A (4
+--SWITCHES) to select among them (I.E. -- MAP A-D TO "00"-"11")
+WITH COUNTER SELECT ssdata <=
+A WHEN "00",
+"000" WHEN OTHERS;
+--DATA END
+
+--SEV_SEG_CONTROLLER
+WITH COUNTER SELECT ssdriver <=
+"01111111" WHEN "00",
+"11111111" WHEN OTHERS;
+--SEV_SEG_CONTROLLER END
+	END BEHAVIORAL;
